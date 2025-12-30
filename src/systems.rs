@@ -32,13 +32,11 @@ pub fn advance_phase(
     }
 }
 
-pub fn enter_next_state<S: States>(
+pub fn enter_next_state<S: States + FreelyMutableState>(
     progress: Res<PhaseProgress>,
     target: Option<ResMut<TransitionTarget<S>>>,
     mut next_state: ResMut<NextState<S>>,
-) where
-    S: States + FreelyMutableState,
-{
+) {
     let Some(mut target) = target else {
         return;
     };
