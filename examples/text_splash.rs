@@ -47,7 +47,6 @@ fn spawn_splash_text(mut commands: Commands) {
                 font_size: 96.0,
                 ..default()
             },
-            TextColor(Color::WHITE),
         )],
     ));
 }
