@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_splash_kit::{SplashKitPlugin, Timeline};
+use bevy_splash_kit::prelude::*;
 
 #[derive(States, Debug, Clone, Eq, PartialEq, Hash, Default)]
 enum AppState {
@@ -15,7 +15,7 @@ fn main() {
         .add_plugins(
             SplashKitPlugin::new(Timeline {
                 fade_in: std::time::Duration::from_secs(1),
-                hold: std::time::Duration::from_secs(2),
+                hold: std::time::Duration::from_secs(1),
                 fade_out: std::time::Duration::from_secs(1),
             })
             .then_enter(AppState::MainMenu),

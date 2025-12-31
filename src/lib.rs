@@ -4,5 +4,7 @@ mod systems;
 mod plugin;
 mod timeline;
 
-pub use plugin::SplashKitPlugin;
-pub use timeline::Timeline;
+pub mod prelude {
+    pub use crate::plugin::SplashKitPlugin;
+    pub use crate::timeline::Timeline;
+}
