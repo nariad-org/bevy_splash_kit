@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: rustfmt
         name: rustfmt
-        entry: cargo fmt -- --check
+        entry: cargo fmt --all -- --check
         language: system          # Uses the system’s Cargo installation
         types: [rust]             # Limits the hook to *.rs files
