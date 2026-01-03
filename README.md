@@ -6,21 +6,32 @@
 # Usage
 This crate is a **time-driven screen sequence engine**. You bring your own rendering logic. We make scheduling easy. Eash splash screen is a sequence of `Fade In -> Hold -> Fade Out`.
 
-Possible future api
-```Rust
-SplashSequence::new()
-    .fade_in(Duration::from_secs(1))
-    .hold(Duration::from_secs(2))
-    .fade_out(Duration::from_secs(1))
-    .then_enter(GameState::Menu);
-```
+# Roadmap
 
-
-Future api for chains
+### Implement a new builder api
 ```Rust
 SplashChainPlugin::new()
-    .add_screen(Timeline { ... }, |commands| spawn_ui_1(commands))
-    .add_screen(Timeline { ... }, |commands| spawn_ui_2(commands))
-    .add_screen(Timeline { ... }, |commands| spawn_ui_3(commands))
-    .then_enter(AppState::MainMenu)
+    // simple closure, easy for beginners
+    .add_screen(
+        Timeline { fade_in: 1s, hold: 2s, fade_out: 1s },
+        |commands| spawn_ui(commands),
+        |t, commands| fade_in_ui(t, commands),
+        |t, commands| fade_out_ui(t, commands),
+    )
+    // advanced closure, can access assets/audio
+    .add_screen_advanced(
+        Timeline { fade_in: 1s, hold: 2s, fade_out: 1s },
+        |mut commands, asset_server: Res<AssetServer>, audio: Res<Audio>| {
+            let logo = asset_server.load("logo.png");
+            commands.spawn(SpriteBundle { texture: logo, ..default() });
+            audio.play(handle.clone());
+        },
+        |t, mut commands, _asset_server, _audio| {
+            // fade logic with access to resources
+        },
+        |t, mut commands, _asset_server, _audio| {
+            // fade out logic with access to resources
+        },
+    )
+    .then_enter(AppState::MainMenu);
 ```
